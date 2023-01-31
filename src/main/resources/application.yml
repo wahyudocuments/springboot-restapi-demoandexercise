@@ -1,0 +1,14 @@
+#spring:
+#  datasource:
+#    url: "jdbc:postgresql://27.112.78.38:5432/wahyu?useLegacyDatetimeCode=false&serverTimezone=UTC"
+#    username: default
+#    password: secret
+#    driver-class-name: "org.postgresql.Driver"
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#      show-sql: true
+#
+#  server:
+#    port: 8092
