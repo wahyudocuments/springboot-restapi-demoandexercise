@@ -1,6 +1,7 @@
 package com.sgiasia.javaspringboot.springdemorestapi.services;
 
 import com.sgiasia.javaspringboot.springdemorestapi.models.entities.Product;
+import com.sgiasia.javaspringboot.springdemorestapi.models.entities.Supplier;
 import com.sgiasia.javaspringboot.springdemorestapi.models.repos.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,15 @@ public class ProductService {
         Product p = productRepo.findById(id).get();
         p.setPrice(product.getPrice());
         productRepo.save(p);
+    }
+
+    public void addSupplier(Supplier supplier, Long productId){
+        Product product = findOne(productId);
+        if(product == null){
+            throw new RuntimeException("Product with Id: " + productId + " not Found");
+        }
+        product.getSuppliers().add(supplier);
+        save(product);
     }
 
 }

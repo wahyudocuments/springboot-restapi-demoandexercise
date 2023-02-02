@@ -1,8 +1,13 @@
 package com.sgiasia.javaspringboot.springdemorestapi.controllers;
 
 import com.sgiasia.javaspringboot.springdemorestapi.dto.ResponseData;
+import com.sgiasia.javaspringboot.springdemorestapi.dto.SupplierData;
 import com.sgiasia.javaspringboot.springdemorestapi.models.entities.Product;
+import com.sgiasia.javaspringboot.springdemorestapi.models.entities.Supplier;
 import com.sgiasia.javaspringboot.springdemorestapi.services.ProductService;
+import com.sgiasia.javaspringboot.springdemorestapi.services.SupplierService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +25,8 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    Logger logger = LoggerFactory.getLogger(SupplierService.class);
+
     @PostMapping
     public ResponseEntity<ResponseData<Product>> create(@Valid @RequestBody Product product, Errors errors ){
 
@@ -33,6 +40,7 @@ public class ProductController {
             responseData.setPayload(null);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseData);
         }
+        logger.info(responseData.toString());
         responseData.setStatus(true);
         responseData.setPayload(productService.save(product));
         return ResponseEntity.ok(responseData);
@@ -84,5 +92,10 @@ public class ProductController {
     @PutMapping("/{id}/setprice/{price}")
     public void updatePrice(@PathVariable("id") Long id, @PathVariable("price") double price , Product product){
         productService.updatePrice(id,price,product);
+    }
+
+    @PostMapping("/{id}")
+    public void addSupplier(@RequestBody Supplier supplier, @PathVariable("id") Long productId){
+        productService.addSupplier(supplier,productId);
     }
 }
