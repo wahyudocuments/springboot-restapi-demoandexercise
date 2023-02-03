@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,7 @@ public class SupplierController {
     private SupplierRepo supplierRepo;
 
     @PostMapping
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<ResponseData<Supplier>> create(@Valid @RequestBody SupplierData supplierData, Errors errors){
         ResponseData<Supplier> responseData = new ResponseData<>();
         if(errors.hasErrors()){
@@ -50,7 +52,7 @@ public class SupplierController {
 //        supplier.setAddress(supplierData.getAddress());
 //        supplier.setEmail(supplierData.getEmail());
 
-        logger.info(supplierData.toString());
+//        logger.info(supplierData.toString());
 
         /** Dengan Model Mapper */
         Supplier supplier = modelMapper.map(supplierData, Supplier.class);
@@ -85,6 +87,7 @@ public class SupplierController {
     }
 
     @PutMapping
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<ResponseData<Supplier>> update(@Valid @RequestBody SupplierData supplierData, Errors errors){
         ResponseData<Supplier> responseData = new ResponseData<>();
         if(errors.hasErrors()){
@@ -110,6 +113,7 @@ public class SupplierController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured("ROLE_ADMIN")
     public void removeOne(@PathVariable("id") Long id){
         supplierService.removeone(id);
     }

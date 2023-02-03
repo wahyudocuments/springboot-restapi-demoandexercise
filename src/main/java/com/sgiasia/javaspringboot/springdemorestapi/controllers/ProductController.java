@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class ProductController {
     Logger logger = LoggerFactory.getLogger(SupplierService.class);
 
     @PostMapping
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<ResponseData<Product>> create(@Valid @RequestBody Product product, Errors errors ){
 
         ResponseData<Product> responseData = new ResponseData<>();
@@ -62,6 +64,7 @@ public class ProductController {
     }
 
     @PutMapping
+    @Secured("ROLE_ADMIN")
     public ResponseEntity<ResponseData<Product>> update(@Valid @RequestBody Product product, Errors errors){
         ResponseData<Product> responseData = new ResponseData<>();
 
@@ -79,6 +82,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured("ROLE_ADMIN")
     public void removeOne(@PathVariable("id") Long id){
         productService.removeOne(id);
     }
