@@ -21,8 +21,9 @@ public class SecurityConfig {
                 .httpBasic()
                 .and()
                 .authorizeHttpRequests((request) -> request
-                        .antMatchers("/").permitAll()
-                        .antMatchers("/**").authenticated()
+                        .antMatchers("/*").permitAll()
+//                        .antMatchers("/**").authenticated()
+                          .anyRequest().authenticated()
                 )
                 .csrf().disable()
                 .formLogin().disable()

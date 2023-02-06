@@ -1,5 +1,6 @@
 package com.sgiasia.javaspringboot.springdemorestapi.middleware;
 
+import com.sgiasia.javaspringboot.springdemorestapi.helpers.JwtHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -11,9 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
+//@Component
 public class HeaderFilter extends GenericFilterBean {
     Logger logger = LoggerFactory.getLogger(HeaderFilter.class);
+    private JwtHelper jwtHelper = new JwtHelper();
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
@@ -28,7 +30,8 @@ public class HeaderFilter extends GenericFilterBean {
                     HttpServletResponse.SC_UNAUTHORIZED
             );
         }else {
-            if(authHeader.equals("123")){
+            String userName = jwtHelper.getUsernameFromToken(authHeader);
+            if(userName.equals("user")){
                 chain.doFilter(req,res);
             }else {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
